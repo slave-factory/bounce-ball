@@ -3,6 +3,8 @@
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Bounce Ball");
 
+    // TODO: main 화면 만들기
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
