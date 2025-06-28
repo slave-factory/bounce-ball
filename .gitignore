@@ -1,0 +1,42 @@
+# 빌드 디렉토리
+/build/
+build/
+cmake-build*/
+
+# CMake 관련 파일
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+install_manifest.txt
+
+# 실행 파일 및 객체 파일
+*.o
+*.obj
+*.so
+*.a
+*.out
+*.exe
+*.dll
+
+# 백업/캐시 파일
+*~
+*.swp
+*.tmp
+*.bak
+*.log
+
+# VSCode 설정
+.vscode/
+*.code-workspace
+
+# CLion / JetBrains
+.idea/
+*.iml
+
+# gdb 디버깅 파일
+.gdb_history
+
+# 기타 시스템 파일
+.DS_Store
+Thumbs.db
