@@ -45,33 +45,17 @@ void Ball::Collide(const sf::RectangleShape& block) {
         &&  pos.x >= block_pos.x - block_len/2 - colBuffer
         ) {
         std::cout << "하" << std::endl;
-        
         isOnGround = false;
     }
 
-    //좌
-    if (    
-            pos.x - radius <= block_pos.x + block_len/2 + colBuffer
-        &&  pos.x - radius >= block_pos.x + block_len/2 - colBuffer
-        &&  pos.y  <= block_pos.y + block_len/2 + colBuffer
-        &&  pos.y  >= block_pos.y - block_len/2 - colBuffer
-        ) {
-        std::cout << "좌" << std::endl;
-        
-        ball.setPosition(pos.x+ (pos.x-(block_pos.x+block_len/2)),pos.y);
-    }
 
-    //우
-    if (    
-            pos.x + radius >= block_pos.x - block_len/2 - colBuffer
-        &&  pos.x + radius <= block_pos.x - block_len/2 + colBuffer
-        &&  pos.y  <= block_pos.y + block_len/2 + colBuffer 
-        &&  pos.y  >= block_pos.y - block_len/2 - colBuffer 
-        ) {
-        std::cout << "우" << std::endl;
+    //총합
+    sf::FloatRect ball_F = ball.getGlobalBounds();
+    sf::FloatRect block_F = block.getGlobalBounds();
+    if (ball_F.intersects(block_F)) {
         
-        ball.setPosition(pos.x - ((block_pos.x-block_len/2)-pos.x),pos.y);
-    }
+        ball.setPosition(pos.x - colBuffer/10*(block_pos.x-pos.x), pos.y- colBuffer/10*(block_pos.y-pos.y));
+    } 
 
 }
 
