@@ -34,6 +34,7 @@ void Ball::Collide(const sf::RectangleShape& block) {
         &&  pos.x >= block_pos.x - block_len/2 - colBuffer
         ) {
         isOnGround = false;
+        return;
         
     }
 
@@ -42,7 +43,8 @@ void Ball::Collide(const sf::RectangleShape& block) {
     sf::FloatRect block_F = block.getGlobalBounds();
     if (ball_F.intersects(block_F)) {
         isOnGround = false;
-        ball.setPosition(pos.x - colBuffer/10*(block_pos.x-pos.x), pos.y- colBuffer/10*(block_pos.y-pos.y));
+        ball.setPosition(pos.x - colBuffer/10*(block_pos.x-pos.x), pos.y- colBuffer/50*(block_pos.y-pos.y));
+        return;
     } 
 
      // 상
@@ -55,6 +57,7 @@ void Ball::Collide(const sf::RectangleShape& block) {
             
         jumpY = pos.y - jumpH;
         isOnGround = true;
+        return;
     }
 
 
