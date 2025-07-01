@@ -26,6 +26,7 @@ public:
 
     void handleInput();
     void Collide(const sf::RectangleShape& block);
+    bool OneCollide(sf::RectangleShape& block);
     void applyGravity();
     void draw(sf::RenderWindow& window);
     sf::Vector2f getPosition() const;

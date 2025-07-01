@@ -26,7 +26,7 @@ void Ball::Collide(const sf::RectangleShape& block) {
     sf::Vector2f block_pos = block.getPosition();
    
     
-    //하
+    // 하
     if (    
             pos.y - radius <= block_pos.y + block_len/2 + colBuffer
         &&  pos.y - radius >= block_pos.y + block_len/2 - colBuffer
@@ -38,7 +38,7 @@ void Ball::Collide(const sf::RectangleShape& block) {
         
     }
 
-    //총합
+    // 총합
     sf::FloatRect ball_F = ball.getGlobalBounds();
     sf::FloatRect block_F = block.getGlobalBounds();
     if (ball_F.intersects(block_F)) {
@@ -62,6 +62,49 @@ void Ball::Collide(const sf::RectangleShape& block) {
 
 
 }
+
+bool Ball::OneCollide(sf::RectangleShape& block) {
+    sf::Vector2f pos = ball.getPosition();
+    sf::Vector2f block_pos = block.getPosition();
+
+    // 하
+    if (    
+            pos.y - radius <= block_pos.y + block_len/2 + colBuffer &&
+            pos.y - radius >= block_pos.y + block_len/2 - colBuffer &&
+            pos.x <= block_pos.x + block_len/2 + colBuffer &&
+            pos.x >= block_pos.x - block_len/2 - colBuffer
+        ) {
+        isOnGround = false;
+        return true;  
+    }
+
+    // 총합
+    sf::FloatRect ball_F = ball.getGlobalBounds();
+    sf::FloatRect block_F = block.getGlobalBounds();
+    if (ball_F.intersects(block_F)) {
+        isOnGround = false;
+        ball.setPosition(
+            pos.x - colBuffer / 10 * (block_pos.x - pos.x),
+            pos.y - colBuffer / 50 * (block_pos.y - pos.y)
+        );
+        return true;  
+    } 
+
+    // 상
+    if (    
+            pos.y + radius >= block_pos.y - block_len/2 - colBuffer &&
+            pos.y + radius <= block_pos.y - block_len/2 + colBuffer*2 &&
+            pos.x <= block_pos.x + block_len/2 + colBuffer*2.5 &&
+            pos.x >= block_pos.x - block_len/2 - colBuffer*2.5
+        ) {
+        jumpY = pos.y - jumpH;
+        isOnGround = true;
+        return true;  
+    }
+
+    return false;  // 충돌 없음
+}
+
 
 void Ball::applyGravity() {
     sf::Vector2f pos = ball.getPosition();
