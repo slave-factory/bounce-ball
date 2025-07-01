@@ -1,23 +1,60 @@
 #include <SFML/Graphics.hpp>
 #include "ball.hpp"
+#include <vector>
+
+const float block_len = 30.f;
+const float block_outline = 1.f;
+const int ROWS = 20;  
+const int COLS = 20;  
+
+int map[ROWS][COLS] = {
+    {0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0, 0,0,0,0,0},
+    {0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0, 0,0,0,0,0},
+    {0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0, 0,0,0,0,0},
+    {0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0, 0,0,0,0,0},
+    {0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0, 0,0,0,0,0},
+
+    {0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0, 0,0,0,0,0},
+    {0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0, 0,0,0,0,0},
+    {0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0, 0,0,0,0,0},
+    {0,0,0,0,0,  0,0,0,0,0,  0,0,0,1,1, 1,0,0,0,0},
+    {0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0, 0,0,0,0,0},
+
+    {0,0,0,0,0,  0,0,0,0,0,  1,0,0,0,0, 0,0,0,0,0},
+    {0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0, 0,0,0,0,0},
+    {0,0,0,0,0,  0,1,1,0,0,  0,0,0,1,0, 0,0,0,0,0},
+    {0,0,0,0,0,  0,0,0,0,0,  1,0,0,0,0, 0,0,0,0,0},
+    {0,0,0,0,0,  1,1,1,1,1,  1,0,0,0,0, 0,0,0,0,0},
+
+    {0,0,0,0,1,  0,0,0,0,0,  0,0,0,0,0, 0,0,0,0,0},
+    {0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0, 0,0,0,0,0},
+    {0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0, 0,0,0,0,0},
+    {0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0, 0,0,0,0,0},
+    {0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0, 0,0,0,0,0}
+    
+};
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Bounce Ball");
+    sf::RenderWindow window(sf::VideoMode(600, 600), "Bounce Ball");
     Ball ball;
 
-    sf::RectangleShape block(sf::Vector2f(30.f, 30.f));
-    block.setOrigin(15.f, 15.f);
-    block.setPosition(400.f, 450.f);
-    block.setFillColor(sf::Color::White);
-    block.setOutlineThickness(1.f);
-    block.setOutlineColor(sf::Color::Black);
+    std::vector<sf::RectangleShape> blocks;
+    
+    for (int i = 0; i < ROWS; ++i) {
+        for (int j = 0; j < COLS; ++j) {
+            if (map[i][j] == 1) {
+                sf::RectangleShape block(sf::Vector2f(block_len - block_outline, block_len - block_outline));
+                block.setFillColor(sf::Color::White);
+                block.setOutlineThickness(block_outline);
+                block.setOutlineColor(sf::Color::Black);
+                block.setOrigin(block_len/2, block_len/2);
+                block.setPosition(j * block_len + block_len/2, i * block_len + block_len/2);
+                blocks.push_back(block);
+            }
+        }
+    }
 
-    sf::RectangleShape block1(sf::Vector2f(30.f, 30.f));
-    block1.setOrigin(15.f, 15.f);
-    block1.setPosition(200.f, 450.f);
-    block1.setFillColor(sf::Color::White);
-    block1.setOutlineThickness(1.f);
-    block1.setOutlineColor(sf::Color::Black);
+    
 
     while (window.isOpen()) {
         sf::Event event;
@@ -28,13 +65,18 @@ int main() {
 
         ball.handleInput();
         ball.applyGravity();
-        ball.Collide(block);
-        ball.Collide(block1);
+
+        for (auto& block : blocks) {
+            ball.Collide(block);
+        }
 
         window.clear(sf::Color::White);
         ball.draw(window);
-        window.draw(block);
-        window.draw(block1);
+
+        for (const auto& block : blocks) {
+            window.draw(block);
+        }
+        std::cout << "" << std::endl;
         window.display();
     }
 

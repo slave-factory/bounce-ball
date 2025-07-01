@@ -7,7 +7,7 @@ Ball::Ball(float r, float speed)
     ball.setFillColor(sf::Color::Yellow);
     ball.setOutlineThickness(1.f);
     ball.setOutlineColor(sf::Color::Black);
-    ball.setPosition(100.f, 400.f);  // 초기 위치
+    ball.setPosition(setOriginX, setOriginY);  // 초기 위치
 }
 
 void Ball::handleInput() {
@@ -24,19 +24,8 @@ void Ball::handleInput() {
 void Ball::Collide(const sf::RectangleShape& block) {
     sf::Vector2f pos = ball.getPosition();
     sf::Vector2f block_pos = block.getPosition();
+   
     
-    // 상
-    if (    
-            pos.y + radius >= block_pos.y - block_len/2 - colBuffer
-        &&  pos.y + radius <= block_pos.y - block_len/2 + colBuffer
-        &&  pos.x <= block_pos.x + block_len/2 + colBuffer//왼쪽
-        &&  pos.x >= block_pos.x - block_len/2 - colBuffer//오른쪽
-        ) {
-        std::cout << "상" << std::endl;
-        jumpY = pos.y - jumpH;
-        isOnGround = true;
-    }
-
     //하
     if (    
             pos.y - radius <= block_pos.y + block_len/2 + colBuffer
@@ -44,18 +33,30 @@ void Ball::Collide(const sf::RectangleShape& block) {
         &&  pos.x <= block_pos.x + block_len/2 + colBuffer
         &&  pos.x >= block_pos.x - block_len/2 - colBuffer
         ) {
-        std::cout << "하" << std::endl;
         isOnGround = false;
+        
     }
-
 
     //총합
     sf::FloatRect ball_F = ball.getGlobalBounds();
     sf::FloatRect block_F = block.getGlobalBounds();
     if (ball_F.intersects(block_F)) {
-        
+        isOnGround = false;
         ball.setPosition(pos.x - colBuffer/10*(block_pos.x-pos.x), pos.y- colBuffer/10*(block_pos.y-pos.y));
     } 
+
+     // 상
+    if (    
+            pos.y + radius >= block_pos.y - block_len/2 - colBuffer
+        &&  pos.y + radius <= block_pos.y - block_len/2 + colBuffer*2
+        &&  pos.x <= block_pos.x + block_len/2 + colBuffer*2.5
+        &&  pos.x >= block_pos.x - block_len/2 - colBuffer*2.5
+        ) {
+            
+        jumpY = pos.y - jumpH;
+        isOnGround = true;
+    }
+
 
 }
 
@@ -72,9 +73,10 @@ void Ball::applyGravity() {
         isOnGround = false;
     }
 
-    if (pos.y > 500.f) {
-        jumpY = pos.y - jumpH;
-        isOnGround = true;
+    if (pos.y > 600.f) {
+        ball.setPosition(setOriginX,setOriginY);
+        // jumpY = pos.y - jumpH;
+        // isOnGround = true;
     }
 
    
