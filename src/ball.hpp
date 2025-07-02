@@ -6,7 +6,7 @@ class Ball {
 private:
     sf::CircleShape ball;
     float setOriginX = 130.f;
-    float setOriginY = 400.f;
+    float setOriginY = 100.f;
     float radius;
     float moveSpeed;
 
@@ -27,6 +27,7 @@ public:
     void handleInput();
     void Collide(const sf::RectangleShape& block);
     bool OneCollide(sf::RectangleShape& block);
+    bool StarCollide(sf::ConvexShape& block);
     void applyGravity();
     void draw(sf::RenderWindow& window);
     sf::Vector2f getPosition() const;

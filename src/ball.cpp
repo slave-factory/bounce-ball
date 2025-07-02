@@ -75,7 +75,7 @@ bool Ball::OneCollide(sf::RectangleShape& block) {
             pos.x >= block_pos.x - block_len/2 - colBuffer
         ) {
         isOnGround = false;
-        return true;  
+        return false;  
     }
 
     // 총합
@@ -87,7 +87,7 @@ bool Ball::OneCollide(sf::RectangleShape& block) {
             pos.x - colBuffer / 10 * (block_pos.x - pos.x),
             pos.y - colBuffer / 50 * (block_pos.y - pos.y)
         );
-        return true;  
+        return false;  
     } 
 
     // 상
@@ -97,7 +97,7 @@ bool Ball::OneCollide(sf::RectangleShape& block) {
             pos.x <= block_pos.x + block_len/2 + colBuffer*2.5 &&
             pos.x >= block_pos.x - block_len/2 - colBuffer*2.5
         ) {
-        jumpY = pos.y - jumpH;
+        jumpY = pos.y - jumpH - 10.f;
         isOnGround = true;
         return true;  
     }
@@ -105,6 +105,22 @@ bool Ball::OneCollide(sf::RectangleShape& block) {
     return false;  // 충돌 없음
 }
 
+bool Ball::StarCollide(sf::ConvexShape& block) {
+    sf::Vector2f pos = ball.getPosition();
+    sf::Vector2f block_pos = block.getPosition();
+
+   
+    // 총합
+    sf::FloatRect ball_F = ball.getGlobalBounds();
+    sf::FloatRect block_F = block.getGlobalBounds();
+    if (ball_F.intersects(block_F)) {
+        return true;  
+    } 
+
+    
+
+    return false;  // 충돌 없음
+}
 
 void Ball::applyGravity() {
     sf::Vector2f pos = ball.getPosition();
@@ -120,9 +136,9 @@ void Ball::applyGravity() {
     }
 
     if (pos.y > 600.f) {
-        ball.setPosition(setOriginX,setOriginY);
-        // jumpY = pos.y - jumpH;
-        // isOnGround = true;
+        // ball.setPosition(setOriginX,setOriginY);
+        jumpY = pos.y - jumpH;
+        isOnGround = true;
     }
 
    
