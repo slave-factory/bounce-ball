@@ -25,9 +25,10 @@ public:
     Ball(float r = 7.f, float speed = 0.5f);
 
     void handleInput();
-    void Collide(const sf::RectangleShape& block);
-    bool OneCollide(sf::RectangleShape& block);
-    bool StarCollide(sf::ConvexShape& block);
+    void collide(const sf::RectangleShape& block);
+    bool oneCollide(sf::RectangleShape& block);
+    bool starCollide(sf::ConvexShape& block);
+    void jumpCollide(const sf::RectangleShape& block);
     void applyGravity();
     void draw(sf::RenderWindow& window);
     sf::Vector2f getPosition() const;
