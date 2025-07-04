@@ -19,7 +19,7 @@ private:
     bool isOnGround = false;
     bool isJumping = false;
 
-    float block_len = 30.f;
+    float blockLen = 30.f;
 
 public:
     Ball(float r = 7.f, float speed = 0.5f);

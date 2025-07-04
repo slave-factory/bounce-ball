@@ -28,10 +28,10 @@ void Ball::Collide(const sf::RectangleShape& block) {
     
     // 하
     if (    
-            pos.y - radius <= block_pos.y + block_len/2 + colBuffer
-        &&  pos.y - radius >= block_pos.y + block_len/2 - colBuffer
-        &&  pos.x <= block_pos.x + block_len/2 + colBuffer
-        &&  pos.x >= block_pos.x - block_len/2 - colBuffer
+            pos.y - radius <= block_pos.y + blockLen/2 + colBuffer
+        &&  pos.y - radius >= block_pos.y + blockLen/2 - colBuffer
+        &&  pos.x <= block_pos.x + blockLen/2 + colBuffer
+        &&  pos.x >= block_pos.x - blockLen/2 - colBuffer
         ) {
         isOnGround = false;
         return;
@@ -49,10 +49,10 @@ void Ball::Collide(const sf::RectangleShape& block) {
 
      // 상
     if (    
-            pos.y + radius >= block_pos.y - block_len/2 - colBuffer
-        &&  pos.y + radius <= block_pos.y - block_len/2 + colBuffer*2
-        &&  pos.x <= block_pos.x + block_len/2 + colBuffer*2.5
-        &&  pos.x >= block_pos.x - block_len/2 - colBuffer*2.5
+            pos.y + radius >= block_pos.y - blockLen/2 - colBuffer
+        &&  pos.y + radius <= block_pos.y - blockLen/2 + colBuffer*2
+        &&  pos.x <= block_pos.x + blockLen/2 + colBuffer*2.5
+        &&  pos.x >= block_pos.x - blockLen/2 - colBuffer*2.5
         ) {
             
         jumpY = pos.y - jumpH;
@@ -69,10 +69,10 @@ bool Ball::OneCollide(sf::RectangleShape& block) {
 
     // 하
     if (    
-            pos.y - radius <= block_pos.y + block_len/2 + colBuffer &&
-            pos.y - radius >= block_pos.y + block_len/2 - colBuffer &&
-            pos.x <= block_pos.x + block_len/2 + colBuffer &&
-            pos.x >= block_pos.x - block_len/2 - colBuffer
+            pos.y - radius <= block_pos.y + blockLen/2 + colBuffer &&
+            pos.y - radius >= block_pos.y + blockLen/2 - colBuffer &&
+            pos.x <= block_pos.x + blockLen/2 + colBuffer &&
+            pos.x >= block_pos.x - blockLen/2 - colBuffer
         ) {
         isOnGround = false;
         return false;  
@@ -92,10 +92,10 @@ bool Ball::OneCollide(sf::RectangleShape& block) {
 
     // 상
     if (    
-            pos.y + radius >= block_pos.y - block_len/2 - colBuffer &&
-            pos.y + radius <= block_pos.y - block_len/2 + colBuffer*2 &&
-            pos.x <= block_pos.x + block_len/2 + colBuffer*2.5 &&
-            pos.x >= block_pos.x - block_len/2 - colBuffer*2.5
+            pos.y + radius >= block_pos.y - blockLen/2 - colBuffer &&
+            pos.y + radius <= block_pos.y - blockLen/2 + colBuffer*2 &&
+            pos.x <= block_pos.x + blockLen/2 + colBuffer*2.5 &&
+            pos.x >= block_pos.x - blockLen/2 - colBuffer*2.5
         ) {
         jumpY = pos.y - jumpH - 10.f;
         isOnGround = true;
