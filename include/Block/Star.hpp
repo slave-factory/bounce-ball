@@ -6,7 +6,7 @@
 class Star : public Block {
 
     public:
-        Star(float x, float y, int& starCount);
+        Star(float x, float y);
 
 };
 

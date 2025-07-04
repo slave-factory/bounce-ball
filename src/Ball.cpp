@@ -3,30 +3,13 @@
 #include <algorithm>
 #include <SFML/Graphics.hpp>
 
-#include "../include/Ball.hpp"
-#include "../include/Block.hpp"
-#include "../include/Star.hpp"
-#include "../include/Stone.hpp"
-#include "../include/Jump.hpp"
-#include "../include/Straight.hpp"
-#include "../include/Needle.hpp"
+#include "Ball.hpp"
 
-Ball::Ball(float x, float y) 
-    : position(x,y), startingPosition(x,y){
-
-    gravity.x = 0.f;
-    gravity.y = 700.f;
-
-    velocity.x = 230.f;
-    velocity.y = 0.f;
-
-    setIsStraight(false);
+Ball::Ball() {
 
     ball.setRadius(16.f);
     ball.setOrigin(ball.getRadius(), ball.getRadius());
     ball.setFillColor(sf::Color(102,153,204));
-    ball.setPosition(startingPosition);
-
 }
 
 // 공의 위치를 업데이트하는 함수
@@ -38,15 +21,15 @@ void Ball::updatePosition(float dt, std::vector<std::unique_ptr<Block>>& blockLi
     // isStraight 상태라면 중력 무시
     if (!getIsStraight()) {
         velocity.y += gravity.y * dt;
-        position.y += initVelocity.y * dt + 0.5f * gravity.y * dt * dt;
+        position.y += initVelocity.y * dt + 0.5 * gravity.y * dt * dt;
     }
 
     // 화면을 벗어날 경우 원래 위치로 되돌리기
     if (position.y < 0 || position.y >= 1024.f || position.x < 0 || position.x > 2048) {
         position.x = startingPosition.x;
         position.y = startingPosition.y;
-        velocity.y = 0.f;
-        setIsVelocityX(0.f);
+        setVelocityY(0.f);
+        setVelocityX(0.f);
         setIsStraight(false);
     }
 
@@ -77,6 +60,32 @@ void Ball::updatePosition(float dt, std::vector<std::unique_ptr<Block>>& blockLi
                 break;
             }
         }
+        else if (auto breakalbeTemp = dynamic_cast<Breakalbe*>(block.get())) {
+            if (ball.getGlobalBounds().intersects((*block).boundary)) {
+                if (overlapX < overlapY) {
+                    // 좌우 충돌
+                    setIsStraight(false);
+                    if (delta.x > 0) {  // 우
+                        position.x += 750 * dt;
+                    }
+                    else {              // 좌
+                        position.x -= 750 * dt;
+                    }  
+                } 
+                else {
+                    // 상하 충돌
+                    if (delta.y > 0) {  // 하
+                        setVelocityY(100.f);      // 아래쪽 벽에 부딪혔을 때는 떨어질 수 있게
+                    }
+                    else {              // 상
+                        // 위쪽 벽에 부딪혔을 때는 위로 다시 튀길 수 있게
+                        setVelocityY(-350.f);
+                        blockList.erase(remove(blockList.begin(), blockList.end(), block), blockList.end());
+                    }
+                }
+                break;
+            }
+        }
         else if (auto stoneTemp = dynamic_cast<Stone*>(block.get())) {
             if (ball.getGlobalBounds().intersects((*block).boundary)) {
                 if (overlapX < overlapY) {
@@ -92,11 +101,11 @@ void Ball::updatePosition(float dt, std::vector<std::unique_ptr<Block>>& blockLi
                 else {
                     // 상하 충돌
                     if (delta.y > 0) {  // 하
-                        velocity.y = 100.f;      // 아래쪽 벽에 부딪혔을 때는 떨어질 수 있게
+                        setVelocityY(100.f);      // 아래쪽 벽에 부딪혔을 때는 떨어질 수 있게
                     }
                     else {              // 상
                         // 위쪽 벽에 부딪혔을 때는 위로 다시 튀길 수 있게
-                        velocity.y = -350.f;
+                        setVelocityY(-350.f);
                     }
                 }
                 break;
@@ -117,11 +126,11 @@ void Ball::updatePosition(float dt, std::vector<std::unique_ptr<Block>>& blockLi
                 else {
                     // 상하 충돌
                     if (delta.y > 0) {  // 하
-                        velocity.y = 100.f; 
+                        setVelocityY(100.f); 
                     }
                     else {              // 상
                         // 위쪽 벽에 부딪혔을 때는 위로 다시 튀길 수 있게
-                        velocity.y = -650.f;
+                        setVelocityY(-650.f);
                     }
                 }
                 break;
@@ -142,7 +151,7 @@ void Ball::updatePosition(float dt, std::vector<std::unique_ptr<Block>>& blockLi
                 else {
                     // 상하 충돌
                     if (delta.y > 0) {  // 하
-                        velocity.y = 100.f; 
+                        setVelocityY(100.f); 
                     }
                     else {  // 상
 
@@ -150,14 +159,14 @@ void Ball::updatePosition(float dt, std::vector<std::unique_ptr<Block>>& blockLi
                         if (straightTemp->getIsRight()) { // 가리키는 방향이 오른쪽이라면
                             position.x = straightTemp->boundary.left + 96.f;    // 공의 직진은 블록 앞에서
                             position.y = straightTemp->boundary.top + 32.f;
-                            velocity.y = 0;
-                            setIsVelocityX(400.f);
+                            setVelocityY(0.f);
+                            setVelocityX(400.f);
                         }
                         else {
                             position.x = straightTemp->boundary.left - 96.f;    // 공의 직진은 블록 앞에서
                             position.y = straightTemp->boundary.top + 32.f;
-                            velocity.y = 0;
-                            setIsVelocityX(-400.f);
+                            setVelocityY(0.f);
+                            setVelocityX(-400.f);
                         }
                     }
                 }
@@ -181,8 +190,8 @@ void Ball::updatePosition(float dt, std::vector<std::unique_ptr<Block>>& blockLi
                     if (delta.y < 0) {  // 아래쪽에 부딪힐 일 없음 & 시작지점으로 돌아가기
                         position.x = startingPosition.x;
                         position.y = startingPosition.y;
-                        velocity.y = 0.f;
-                        setIsVelocityX(0.f);
+                        setVelocityY(0.f);
+                        setVelocityX(0.f);
                         setIsStraight(false);
                     }
                 }
@@ -196,8 +205,13 @@ void Ball::updatePosition(float dt, std::vector<std::unique_ptr<Block>>& blockLi
 }
 
 // 좌우 이동 속도 설정
-void Ball::setIsVelocityX(float velocityX) {
+void Ball::setVelocityX(float velocityX) {
     velocity.x = velocityX;
+}
+
+// y축 방향 이동 설정
+void Ball::setVelocityY(float velocityY) {
+    velocity.y = velocityY;
 }
 
 // 좌우 이동
@@ -217,4 +231,21 @@ bool Ball::getIsStraight() {
 
 void Ball::setIsStraight(bool isStraight) {
     this->isStraight = isStraight;
+}
+
+void Ball::setStartSetting(sf::Vector2f p) {
+
+    position.x = p.x;
+    position.y = p.y;
+    startingPosition.x = p.x;
+    startingPosition.y = p.y;
+
+    gravity.x = 0.f;
+    gravity.y = 700.f;
+
+    setVelocityX(230.f);
+    setVelocityY(0.f);
+
+    setIsStraight(false);
+
 }

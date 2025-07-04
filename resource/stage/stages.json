@@ -1,0 +1,68 @@
+{
+  "stages": [
+    {
+      "stage": 1,
+      "unlocked": true,
+      "startX" : 196.0,
+      "startY" : 512.0,
+      "blocks": [
+        { "type": "Stone", "x": 0.0, "y": 6.0, "width": 1.0, "height": 6.0, "blockSize": 64.0 },
+        { "type": "Stone", "x": 0.0, "y": 11.0, "width": 5.0, "height": 1.0, "blockSize": 64.0 },
+        { "type": "Stone", "x": 6.0, "y": 11.0, "width": 3.0, "height": 1.0, "blockSize": 64.0 },
+        { "type": "Stone", "x": 12.0, "y": 7.0, "width": 3.0, "height": 1.0, "blockSize": 64.0 },
+        { "type": "Stone", "x": 16.0, "y": 7.0, "width": 3.0, "height": 1.0, "blockSize": 64.0 },
+        { "type": "Stone", "x": 20.0, "y": 11.0, "width": 2.0, "height": 1.0, "blockSize": 64.0 },
+        { "type": "Stone", "x": 24.0, "y": 3.0, "width": 3.0, "height": 1.0, "blockSize": 64.0 },
+
+        { "type": "Needle", "x": 4.0, "y": 10.0, "width": 1.0, "height": 1.0 },
+        { "type": "Needle", "x": 20.0, "y": 10.0, "width": 2.0, "height": 1.0 },
+
+        { "type": "Breakable", "x": 15.0, "y": 8.0 },
+
+        { "type": "Jump", "x": 1.0, "y": 9.0 },
+        { "type": "Jump", "x": 9.0, "y": 11.0 },
+        { "type": "Jump", "x": 22.0, "y": 11.0 },
+        { "type": "Jump", "x": 23.0, "y": 7.0 },
+
+        { "type": "Straight", "x": 19.0, "y": 7.0, "isRight": true },
+        { "type": "Straight", "x": 26.0, "y": 8.0, "isRight": false },
+
+        { "type": "Star", "x": 0.0, "y": 5.0 },
+        { "type": "Star", "x": 6.0, "y": 10.0 },
+        { "type": "Star", "x": 14.0, "y": 6.0 },
+        { "type": "Star", "x": 15.0, "y": 5.0 },
+        { "type": "Star", "x": 16.0, "y": 6.0 },
+        { "type": "Star", "x": 26.0, "y": 2.0 },
+        { "type": "Star", "x": 12.0, "y": 8.0 },
+        { "type": "Star", "x": 13.0, "y": 8.0 },
+        { "type": "Star", "x": 14.0, "y": 8.0 }
+      ]
+    },
+    {
+      "stage": 2,
+      "unlocked": true,
+      "startX" : 196.0,
+      "startY" : 512.0,
+      "blocks": [
+        { "type": "Stone", "x": 0.0, "y": 6.0, "width": 1.0, "height": 6.0, "blockSize": 64.0 },
+        { "type": "Stone", "x": 0.0, "y": 11.0, "width": 5.0, "height": 1.0, "blockSize": 64.0 },
+        { "type": "Stone", "x": 6.0, "y": 11.0, "width": 3.0, "height": 1.0, "blockSize": 64.0 },
+        { "type": "Stone", "x": 12.0, "y": 7.0, "width": 3.0, "height": 1.0, "blockSize": 64.0 },
+        { "type": "Stone", "x": 16.0, "y": 7.0, "width": 3.0, "height": 1.0, "blockSize": 64.0 },
+        { "type": "Stone", "x": 20.0, "y": 11.0, "width": 2.0, "height": 1.0, "blockSize": 64.0 },
+        { "type": "Stone", "x": 24.0, "y": 3.0, "width": 3.0, "height": 1.0, "blockSize": 64.0 },
+        { "type": "Star", "x": 5.0, "y": 10.0 }
+      ]
+    },
+    {
+      "stage": 3,
+      "unlocked": true,
+      "startX" : 300.0,
+      "startY" : 400.0,
+      "blocks": [
+        { "type": "Stone", "x": 4.0, "y": 8.0, "width": 10.0, "height": 1.0, "blockSize": 64.0},
+        { "type": "Star",  "x": 13.0,"y": 7.0}
+      ]
+    }
+  ]
+}
